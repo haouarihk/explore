@@ -1,26 +1,20 @@
-import prisma from '@/prisma';
 import Tweet from './components/tweet/skeleton'
-import { revalidatePath } from 'next/cache';
+import NavControls from './components/nav/controls';
 
 export default async function Home() {
     return (
-        <main className="min-h-screen flex-col items-center justify-between md:px-24">
-            <div className='flex-col flex gap-3 p-4'>
-                <textarea name="content" id="content" className='w-full bg-black text-white' cols={30} rows={10}></textarea>
-
-                <div>
-                    <button>Tweet</button>
+        <main className="h-full flex flex-col items-center justify-between md:px-24 pt-32 w-full">
+            <div className='max-w-5xl w-full h-full'>
+                <div className='flex justify-between items-center p-4 fixed px-8 left-0 top-0 w-full backdrop-blur-md z-50'>
+                    <h1 className='font-bold text-3xl select-none'>Explore</h1>
+                    <NavControls defaultSearchValue={""} user={{} as any} />
                 </div>
-            </div>
-            <div className='p-4'>
-                <h1 className='font-bold text-3xl'>Explorer</h1>
-            </div>
-            <div className='flex flex-col'>
-                <Tweet />
-                <Tweet />
-                <Tweet />
-                <Tweet />
-                <Tweet />
+                <div className='flex flex-col'>
+                    <Tweet />
+                    <Tweet />
+                    <Tweet />
+                    <Tweet />
+                </div>
             </div>
         </main>
     )

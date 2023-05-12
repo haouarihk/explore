@@ -11,6 +11,17 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model StorageItem {
+  id       String @id @default(cuid())
+  tweetId  String
+  Tweet    Tweet  @relation(fields: [tweetId], references: [id])
+  name     String
+  type     String
+  mimeType String
+  size     String
+  data     Bytes
+}
+
 model Tweet {
   id   String @id @default(cuid())
   User User?  @relation(fields: [userId], references: [id])
@@ -22,6 +33,8 @@ model Tweet {
   createdAt  DateTime @default(now())
   modifiedAt DateTime @default(now()) @updatedAt
   userId     String?
+
+  storage StorageItem[]
 }
 
 model Comment {

@@ -1,47 +1,59 @@
 import jwt from "jsonwebtoken";
 import { NextRequest, NextResponse } from "next/server";
-import { getJwtPrivateKey, getJwtPublicKey, verifyHashedPassword } from "@/libs/auth";
+import { getJwtPrivateKey, verifyHashedPassword } from "@/libs/auth";
 import prisma from "@/prisma";
+import { emailSchema, passwordSchema } from "../schema";
+
 
 export async function POST(req: NextRequest) {
-    try{
+    try {
         const body = await req.json();
-        const user = await prisma.user.findFirst({
+
+        const password = await passwordSchema.parseAsync(body.password, {
+            path: ["password"]
+        })
+
+        const email = await emailSchema.parseAsync(body.email, {
+            path: ["email"]
+        })
+
+        const user = await prisma.user.findUnique({
             where: {
-                email: body.username
+                email
             }
         })
-        
+        console.log(user)
         // Validate input
-        if (user) {
-            const { hashedPassword, ...UserData } = user;
-            
-            // verify password
-            if (await verifyHashedPassword(body.password, user.hashedPassword)) {
+        if (!user) throw new Error("Couldn't find the user");
 
-                // make jwt
-                const token = await jwt.sign(UserData, getJwtPrivateKey(), {
-                    algorithm: "RS256",
-                    expiresIn: "24h"
-                })
-                
-                const response = NextResponse.json(
-                    { success: true },
-                    { status: 200, headers: { "content-type": "application/json" } }
-                    );
-                    
-                    response.cookies.set({
-                        name: "token",
-                        value: token,
-                        path: "/",
-                    });
-                    
-                    return response;
-                }
-            }
-            
-            return NextResponse.json({ success: false });
-        } catch(err:any){
-            return NextResponse.json({ detail: err.message || err });
-        }
-        }
+        const { hashedPassword, ...UserData } = user;
+
+        // verify password
+        if (!await verifyHashedPassword(password, user.hashedPassword)) throw new Error("Wrong password");
+
+        console.log(user, password, email)
+
+        // make jwt
+        const token = await jwt.sign(UserData, getJwtPrivateKey(), {
+            algorithm: "RS256",
+            expiresIn: "24h"
+        })
+
+        const response = NextResponse.json(
+            { success: true },
+            { status: 200, headers: { "content-type": "application/json" } }
+        );
+
+        response.cookies.set({
+            name: "token",
+            value: token,
+            path: "/",
+        });
+
+        return response;
+    } catch (err: any) {
+        return NextResponse.json({ success: false, detail: err.message || err }, {
+            status: 500
+        });
+    }
+}

@@ -20,10 +20,32 @@ export const POST = API(async ({ req, handler: { user } }) => {
                     id: user.id
                 }
             },
-            content: data.content || ""
+            content: data.content || "",
+            storage:{
+                create: data.files?.map((file:any) =>( {
+                    data: file.data,
+                    mimeType: file.mimeType,
+                    type: file.mimeType,
+                    name: file.name,
+                    size: file.size,
+                }))
+            }
         },
     })
 
     await revalidatePath("/");
     return { success: true }
 })
+
+// for(const file of data.files){
+//     await prisma.storageItem.create({
+//         data:{
+//                 data: file.data,
+//                 mimeType: file.mimeType,
+//                 type: file.mimeType,
+//                 name: file.name,
+//                 size: file.size,
+                
+//         }
+//     })
+// }

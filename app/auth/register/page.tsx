@@ -6,11 +6,13 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { toast } from "react-hot-toast";
 import { Eye, EyeOff } from "tabler-icons-react";
+import SignIn from "../login/page";
 
 
 const k = (setVal: Function) => (e: any) => setVal(e.target.value);
 
-export default function SignIn() {
+export default function Register() {
+    const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
@@ -25,7 +27,8 @@ export default function SignIn() {
     const error = query.get("error")
 
     async function onSubmit() {
-        await toast.promise(signIn({
+        toast.promise(signUp({
+            name,
             email,
             password,
         }), {
@@ -43,9 +46,13 @@ export default function SignIn() {
         <div>
             <div>
                 <div>
-                    <div>Sign in to your account</div>
+                    <div>Register</div>
                 </div>
                 <div >
+                    <div id="name">
+                        <div>Name</div>
+                        <input name="name" type="name" value={name} onChange={k(setName)} />
+                    </div>
                     <div id="email">
                         <div>Email</div>
                         <input name="email" type="email" value={email} onChange={k(setEmail)} />
@@ -86,13 +93,13 @@ export default function SignIn() {
                         </div>}
                     </div>
                     <button onClick={onSubmit} className="btn">
-                        Sign in
+                        Register
                     </button>
                     <div>
-                        Not a user yet?{" "}
-                        <div className="btn" onClick={() => signUp()}
+                        Already have an account?{" "}
+                        <div className="btn" onClick={() => SignIn()}
                         >
-                            Register
+                            Login
                         </div>
                     </div>
                 </div>

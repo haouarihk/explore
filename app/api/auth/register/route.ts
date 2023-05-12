@@ -1,25 +1,40 @@
 import jwt from "jsonwebtoken";
 import { NextRequest, NextResponse } from "next/server";
-import { getJwtPrivateKey, hashPassword, verifyHashedPassword } from "@/libs/auth";
+import { getJwtPrivateKey, hashPassword } from "@/libs/auth";
 import prisma from "@/prisma";
+import { nameSchema, passwordSchema, emailSchema } from "../schema";
+
+
 
 export async function POST(req: NextRequest) {
-    const body = await req.json();
+    try {
+
+        const body = await req.json();
+
+        const name = await nameSchema.parseAsync(body.name, {
+            path: ["name"]
+        })
+
+        const password = await passwordSchema.parseAsync(body.password, {
+            path: ["password"]
+        })
+
+        const email = await emailSchema.parseAsync(body.email, {
+            path: ["email"]
+        })
 
 
+        const user = await prisma.user.create({
+            data: {
+                email,
+                name,
+                hashedPassword: await hashPassword(password)
+            }
+        })
 
+        if (!user) throw new Error("couldn't create user");
 
-
-    const user = await prisma.user.create({
-        data: {
-            email: body.username,
-            name: body.name,
-            hashedPassword: await hashPassword(body.password)
-        }
-    })
-
-    if (user) {
-        const {hashedPassword, ...UserData} = user; 
+        const { hashedPassword, ...UserData } = user;
         // verify password
 
         // make jwt
@@ -40,7 +55,11 @@ export async function POST(req: NextRequest) {
         });
 
         return response;
-    }
 
-    return NextResponse.json({ success: false });
+
+    } catch (err: any) {
+        return NextResponse.json({ success: false, details: err.message || err }, {
+            status: 500
+        });
+    }
 }

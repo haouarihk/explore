@@ -52,6 +52,26 @@ export async function signIn(props?:{ email: string; password: string; redirectU
     return data;
 }
 
+export async function signUp(props?:{ name:string; email: string; password: string; redirectUrl?: string}){
+    if(!props) 
+        return signOut({
+            redirectUrl: "/auth/register"
+        })
+    
+    const res = await fetch("/api/auth/register", {
+        method: "POST",
+        body: JSON.stringify(props)
+    })
+
+    const data = await res.json();
+
+    if(!res.ok) throw new Error(data.detail);
+
+    window.location.href = props.redirectUrl || "/";
+
+    return data;
+}
+
 
 export function signOut(props?:{redirectUrl?:string}){
     const cookies = new Cookies();

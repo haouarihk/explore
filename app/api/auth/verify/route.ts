@@ -7,6 +7,7 @@ export async function POST(req: NextRequest) {
         const body = await req.json();
         return NextResponse.json({ user: await verifyJwtToken(body.token) })
     } catch (err: any) {
+        console.log(err)
         return NextResponse.json({ detail: err.message || err });
     }
 }

@@ -3,10 +3,12 @@ import { Tweet } from "@prisma/client";
 import clsx from "clsx";
 import moment from "moment";
 import { revalidatePath } from "next/cache";
-import { Heart, Message } from "tabler-icons-react";
-import TweetBody from "./body";
+import { Heart, Message, X } from "tabler-icons-react";
 import { getServerAuth } from "../auth";
 import Avatar from "../avatar";
+import { StorageViewer } from "./storage";
+import { className } from "./body";
+import HeartButton from "./button/heart";
 
 
 
@@ -19,9 +21,17 @@ export default async function Tweet(props: Tweet & {
         name: string | null;
         image: string | null;
     } | null;
+    storage: {
+        id: string;
+        name: string;
+        type: string;
+        mimeType: string;
+        size: string;
+    }[];
     _count: {
         Comments: number;
         Likes: number;
+        storage: number;
     };
 }) {
     const s = await getServerAuth();
@@ -31,7 +41,7 @@ export default async function Tweet(props: Tweet & {
 
     const submitLike = async (formData: FormData) => {
         "use server";
-        if (!s?.user?.email) throw new Error("Not Authorized");
+        if (!s?.user?.email) throw new Error("Not Authenticated");
         await prisma.tweet.update({
             where: {
                 id: props.id,
@@ -54,12 +64,35 @@ export default async function Tweet(props: Tweet & {
         await revalidatePath("/")
     }
 
-    return <TweetBody>
+    const submitDelete = async (formData: FormData) => {
+        "use server";
+        if (!s?.user?.email) throw new Error("Not Authenticated");
+        if (s?.user?.id !== props.userId) throw new Error("Not Authorized");
+        await prisma.storageItem.deleteMany({
+            where: {
+                tweetId: props.id,
+            },
+        })
+        await prisma.tweet.delete({
+            where: {
+                id: props.id,
+            },
+        })
+
+        await revalidatePath("/")
+    }
+
+    return <div className={className}>
+        {props.userId == s.user?.id && <form action={submitDelete} className="absolute top-2 right-2">
+            <button>
+                <X />
+            </button>
+        </form>}
         {/* tweet */}
-        <div className="flex items-center gap-4">
-            {/* image */}
+        <div className="flex flex-grow min-w-max gap-4 w-full">
+
             {/* tweet content */}
-            <div className="flex flex-col gap-2">
+            <div className="flex flex-col w-full gap-2">
                 {/* username */}
                 <div className="flex gap-3">
                     <Avatar user={props.User as any} />
@@ -77,17 +110,15 @@ export default async function Tweet(props: Tweet & {
             </div>
 
             {/* - */}
+
         </div>
+
+        <StorageViewer id={props.id} files={props.storage} />
 
         {/* controls */}
         <div className="flex gap-3 px-3 items-center justify-evenly select-none">
             <form action={submitLike} className="flex gap-2 items-center">
-                {props._count?.Likes || 0}
-                <button className={clsx("hover:fill-pink-500 hover:stroke-red-500 cursor-pointer", {
-                    "fill-pink-500 stroke-red-500": likedIt
-                })}>
-                    <Heart width={20} />
-                </button>
+                <HeartButton likes={props._count.Likes} likedIt={likedIt} />
             </form>
 
             <form className="flex gap-2 items-center">
@@ -97,5 +128,5 @@ export default async function Tweet(props: Tweet & {
                 </button>
             </form>
         </div>
-    </TweetBody>
+    </div>
 }
