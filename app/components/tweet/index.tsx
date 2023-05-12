@@ -1,14 +1,12 @@
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import prisma from "@/prisma";
 import { Tweet } from "@prisma/client";
 import clsx from "clsx";
 import moment from "moment";
-import { getServerSession } from "next-auth";
 import { revalidatePath } from "next/cache";
-import Image from "next/image";
-import { Heart, Link, Message, User } from "tabler-icons-react";
-import { experimental_useOptimistic as useOptimistic } from "react";
+import { Heart, Message } from "tabler-icons-react";
 import TweetBody from "./body";
+import { getServerAuth } from "../auth";
+import Avatar from "../avatar";
 
 
 
@@ -26,7 +24,7 @@ export default async function Tweet(props: Tweet & {
         Likes: number;
     };
 }) {
-    const s = await getServerSession(authOptions);
+    const s = await getServerAuth();
     const authenticated = !!s?.user;
 
     const likedIt = !!props.Likes.find(e => e.email == s?.user?.email)
@@ -60,25 +58,20 @@ export default async function Tweet(props: Tweet & {
         {/* tweet */}
         <div className="flex items-center gap-4">
             {/* image */}
-            <div className="flex items-center justify-center avatar rounded-md bg-black w-[42px] h-[42px]">
-                {props?.User?.image ?
-                    <Image alt={props.User.name + "-Avatar"} src={props.User.image} width={42} height={42} />
-                    : <p className="text-2xl">{props.User?.name?.[0] || "G"}</p>}
-            </div>
-
             {/* tweet content */}
-            <div className="flex-col">
+            <div className="flex flex-col gap-2">
                 {/* username */}
-                <div className="flex gap-2">
+                <div className="flex gap-3">
+                    <Avatar user={props.User as any} />
                     {/* username */}
-                    <div className="font-bold tracking-wide">{props?.User?.name || "Guest"}</div>
-                    {/* tag */}
-                    <div className="font-thin">@{(props.User?.name|| "Guest")?.replaceAll(" ", "")}</div>
-                    <div>- {moment(props.createdAt).fromNow()}</div>
+                    <div>
+                        <div className="font-bold tracking-wide">{props?.User?.name || "Guest"}</div>
+                        <div className="font-thin text-sm">{moment(props.createdAt).fromNow()}</div>
+                    </div>
                 </div>
 
                 {/* content */}
-                <p className="text-lg">
+                <p className="text-2xl font-bold tracking-wide">
                     {props.content}
                 </p>
             </div>

@@ -1,45 +1,54 @@
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
-import prisma from "@/prisma";
-import { User, getServerSession } from "next-auth";
-import { revalidatePath } from "next/cache";
+'use client';
+
+import { User } from "next-auth";
 import Avatar from "../../avatar";
 import TweetBody from "../body";
+import { Send, TruckLoading } from "tabler-icons-react";
+import { useAuth } from "../../auth/client";
+import { useState } from "react";
+import clsx from "clsx";
 
-export default async function CreateTweet(props: { user: User }) {
-    const s = await getServerSession(authOptions);
-    const submitNewTweet = async (formData: FormData) => {
-        "use server";
-        if (!s?.user?.email) throw new Error("Not Authorized");
-        await prisma.tweet.create({
-            data: {
-                User: {
-                    connect: {
-                        email: s?.user?.email
-                    }
-                },
-                content: formData.get("content")?.toString() || ""
-            },
-        })
+export default function CreateTweet(props: { user: User }) {
+    const s = useAuth();
 
-        await revalidatePath("/")
+    const [content, setContent] = useState("");
+
+    const [loading, setLoading] = useState(false);
+
+
+    const submit = async () => {
+        setLoading(true);
+        await fetch("/api/v1/tweets", {
+            method: "POST",
+            body: JSON.stringify({
+                content
+            })
+        });
+        setContent("")
+        setLoading(false);
     }
 
-
-    return <form action={submitNewTweet}>
-        <TweetBody>
+    return <div >
+        <TweetBody className="mb-5">
             {/* @ts-ignore */}
             <div className="flex relative">
                 <div className="pt-2">
-                    <Avatar user={s?.user} />
+                    <Avatar user={s?.user as any} />
                 </div>
-                <textarea name="content" id="content" className='p-4 outline-none w-full bg-transparent text-white resize-none' cols={10} rows={1} />
+                <textarea disabled={loading} value={content} onChange={(e) => setContent(e.target.value)} name="content" id="content" className='p-4 outline-none w-full bg-transparent text-white resize-none' cols={10} rows={1} placeholder="What are you thinking about..." />
             </div>
             <div className='flex w-full justify-between'>
                 <div>
-                    <button></button>
+
                 </div>
-                <button className='btn'>Tweet</button>
+
+                {loading ?
+                    <TruckLoading />
+                    : <button className={clsx('stroke-white/40', {
+                        "stroke-white/5": !content.length,
+                        "hover:stroke-white": content.length
+                    })} onClick={content.length ? submit : undefined}><Send className="stroke-white/40 hover:stroke-white" /></button>}
             </div>
         </TweetBody>
-    </form>
+    </div>
 }
