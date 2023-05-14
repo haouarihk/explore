@@ -12,6 +12,8 @@ export const metadata = {
   description: 'Explore Content',
 }
 
+
+
 export default async function RootLayout(props: any) {
   const query = props.searchParams;
   const search: string = decodeURIComponent((query?.search as string) || "");

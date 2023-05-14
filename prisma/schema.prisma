@@ -26,31 +26,14 @@ model Tweet {
   id   String @id @default(cuid())
   User User?  @relation(fields: [userId], references: [id])
 
-  content  String
-  Comments Comment[]
-  Likes    User[]    @relation("likeTweet")
-
+  content    String
+  Likes      User[]   @relation("likeTweet")
+  Views      BigInt
   createdAt  DateTime @default(now())
   modifiedAt DateTime @default(now()) @updatedAt
   userId     String?
 
   storage StorageItem[]
-}
-
-model Comment {
-  id Int @id @default(autoincrement())
-
-  User   User?   @relation(fields: [userId], references: [id])
-  userId String?
-
-  content String
-  Tweet   Tweet?  @relation(fields: [tweetId], references: [id])
-  tweetId String?
-
-  Likes User[] @relation("likeComment")
-
-  createdAt  DateTime @default(now())
-  modifiedAt DateTime @default(now()) @updatedAt
 }
 
 model User {
@@ -71,8 +54,6 @@ model User {
 
   tweets        Tweet[]
   likedTweets   Tweet[]   @relation("likeTweet")
-  likedComments Comment[] @relation("likeComment")
-  Comments      Comment[]
 
   @@map("users")
 }
