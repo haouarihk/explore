@@ -14,7 +14,7 @@ export default function NavControls(props: { user?: User }) {
 
     const [opened, setOpened] = useState(false);
 
-    return <div className="flex items-center gap-3">
+    return <div className="flex items-center gap-3 text-sm md:text-md">
         <div className="flex items-center border-2 rounded-md border-white/20 pr-2 w-full max-w-sm gap-2">
             <div className="flex items-center pl-3 pointer-events-none">
                 <svg aria-hidden="true" className="w-5 h-5 text-gray-500 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>

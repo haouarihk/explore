@@ -38,31 +38,6 @@ export default async function Tweet(props: Tweet & {
 
     const likedIt = !!props.Likes.find(e => e.email == s?.user?.email)
 
-    const submitLike = async (formData: FormData) => {
-        "use server";
-        if (!s?.user?.email) throw new Error("Not Authenticated");
-        await prisma.tweet.update({
-            where: {
-                id: props.id,
-            },
-            data: {
-                Likes: {
-                    ...(likedIt ? {
-                        disconnect: {
-                            email: s?.user?.email
-                        }
-                    } : {
-                        connect: {
-                            email: s?.user?.email
-                        }
-                    })
-                }
-            },
-        })
-
-        await revalidatePath("/")
-    }
-
     const submitDelete = async (formData: FormData) => {
         "use server";
         if (!s?.user?.email) throw new Error("Not Authenticated");
@@ -116,9 +91,9 @@ export default async function Tweet(props: Tweet & {
 
         {/* controls */}
         <div className="flex gap-3 px-3 items-center justify-evenly select-none">
-            <form action={submitLike} className="flex gap-2 items-center">
-                <HeartButton likes={props._count.Likes} likedIt={likedIt} />
-            </form>
+            <div className="flex gap-2 items-center">
+                <HeartButton likes={props._count.Likes} likedIt={likedIt} tweetId={props.id} />
+            </div>
 
             <form className="flex gap-2 items-center">
                 {(props.Views.toString()) || 0}

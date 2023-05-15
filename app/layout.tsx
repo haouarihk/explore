@@ -22,8 +22,8 @@ export default async function RootLayout(props: any) {
         <Context {...props}>
           <main className="h-full flex flex-col items-center justify-between md:px-24 pt-32 w-full">
             <div className='max-w-5xl w-full h-full'>
-              <div className='flex justify-between items-center p-4 fixed px-8 left-0 top-0 w-full backdrop-blur-md border-b-2 border-white/10 z-50'>
-                <h1 className='font-bold text-3xl select-none'>Explore</h1>
+              <div className='flex justify-between items-center p-4 fixed px-8 left-0 gap-3 top-0 w-full backdrop-blur-md border-b-2 border-white/10 z-50'>
+                <h1 className='font-bold text-md md:text-3xl select-none'>Explore</h1>
                 <NavControls user={s?.user as any} />
               </div>
             </div >

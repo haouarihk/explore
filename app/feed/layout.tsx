@@ -1,5 +1,7 @@
 // import { Inter } from 'next/font/google'
 
+import { getServerAuth } from "../components/auth";
+
 // const inter = Inter({ subsets: ['latin'] })
 
 export const metadata = {
@@ -10,11 +12,10 @@ export const metadata = {
 
 
 export default async function RootLayout(props: any) {
-  const query = props.searchParams;
-  const search: string = decodeURIComponent((query?.search as string) || "");
+  const s = await getServerAuth();
   return (
     <>
-      {props.create}
+      {s.user && props.create}
 
       {props.children}
     </>

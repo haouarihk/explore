@@ -49,7 +49,7 @@ export default function Tweet(props: {}) {
         {/* controls */}
         <div className="flex gap-3 px-3 items-center justify-evenly select-none">
             <form className="flex gap-2 items-center">
-                <HeartButton likes={0} likedIt={false} skeleton />
+                <HeartButton likes={0} likedIt={false} tweetId="" skeleton />
             </form>
 
             <form className="flex gap-2 items-center">
