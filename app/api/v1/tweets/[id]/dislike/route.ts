@@ -10,7 +10,7 @@ export const POST = API(async ({ handler: { user }, props }) => {
         },
         data: {
             Likes: {
-                connect: {
+                disconnect: {
                     id: user?.id
                 }
             }

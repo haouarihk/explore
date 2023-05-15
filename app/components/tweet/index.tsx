@@ -9,6 +9,7 @@ import Avatar from "../avatar";
 import { StorageViewer } from "./storage";
 import { className } from "./body";
 import HeartButton from "./button/heart";
+import { nFormatter } from "@/utils";
 
 
 
@@ -96,7 +97,7 @@ export default async function Tweet(props: Tweet & {
             </div>
 
             <form className="flex gap-2 items-center">
-                {(props.Views.toString()) || 0}
+                {nFormatter(+(props.Views.toString()) || 0)}
                 <button className="hover:fill-pink-500 hover:stroke-red-500 cursor-pointer">
                     <Eye width={20} />
                 </button>

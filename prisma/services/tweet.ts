@@ -1,11 +1,37 @@
 import prisma from "..";
 
 /** Function that gets tweets, and only retrive the current user's like (to check if he liked it or not) */
-export async function getTweets(search: string, viewerEmail?: string | null) {
-    let tweets = await prisma.tweet.findMany({
-      orderBy: {
-        createdAt: "desc"
-      },
+export async function getTweets(search: string, viewerEmail?: string | null, trending?: boolean) {
+    const tweets = await prisma.tweet.findMany({
+      // if trending
+      orderBy: trending?[
+        // order by likes first
+        {
+          Likes:{
+            _count: "desc"
+          }
+        },
+        // then order by views second
+        {
+          Views:"desc"
+        }
+      ]:[
+
+         // order second by users who are most active first
+         {
+          User:{
+            tweets:{
+              _count:"desc"
+            }
+          }
+        },
+        
+        {
+          // order by last tweet first
+          createdAt: "desc"
+        },
+       
+      ],
       include: {
         User: {
           select: {
