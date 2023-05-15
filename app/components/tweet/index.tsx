@@ -3,7 +3,7 @@ import { Tweet } from "@prisma/client";
 import clsx from "clsx";
 import moment from "moment";
 import { revalidatePath } from "next/cache";
-import { Heart, Message, X } from "tabler-icons-react";
+import { Eye, Heart, Message, X } from "tabler-icons-react";
 import { getServerAuth } from "../auth";
 import Avatar from "../avatar";
 import { StorageViewer } from "./storage";
@@ -29,7 +29,6 @@ export default async function Tweet(props: Tweet & {
         size: string;
     }[];
     _count: {
-        Comments: number;
         Likes: number;
         storage: number;
     };
@@ -122,9 +121,9 @@ export default async function Tweet(props: Tweet & {
             </form>
 
             <form className="flex gap-2 items-center">
-                {props._count?.Comments || 0}
+                {(props.Views.toString()) || 0}
                 <button className="hover:fill-pink-500 hover:stroke-red-500 cursor-pointer">
-                    <Message width={20} />
+                    <Eye width={20} />
                 </button>
             </form>
         </div>

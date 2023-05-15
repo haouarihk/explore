@@ -26,34 +26,29 @@ model Tweet {
   id   String @id @default(cuid())
   User User?  @relation(fields: [userId], references: [id])
 
-  content    String
-  Likes      User[]   @relation("likeTweet")
-  Views      BigInt
-  createdAt  DateTime @default(now())
-  modifiedAt DateTime @default(now()) @updatedAt
-  userId     String?
+  content      String
+  Likes        User[]   @relation("likeTweet")
+  Views        BigInt   @default(1)
+  lastViewerId String?
+  createdAt    DateTime @default(now())
+  modifiedAt   DateTime @default(now()) @updatedAt
+  userId       String?
 
   storage StorageItem[]
 }
 
 model User {
-  id            String    @id @default(cuid())
-  name          String?
-  email         String?   @unique
-  emailVerified DateTime?
-  image         String?
-  createdAt     DateTime? @default(now())
-  deletedAt     DateTime?
-  updatedAt     DateTime? @updatedAt
+  id        String    @id @default(cuid())
+  name      String?
+  email     String?   @unique
+  image     String?
+  createdAt DateTime? @default(now())
+  updatedAt DateTime? @updatedAt
 
   hashedPassword String?
 
-  // frezed
-  frozen   Boolean?  @default(false)
-  frozenAt DateTime?
-
-  tweets        Tweet[]
-  likedTweets   Tweet[]   @relation("likeTweet")
+  tweets      Tweet[]
+  likedTweets Tweet[] @relation("likeTweet")
 
   @@map("users")
 }

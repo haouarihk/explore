@@ -22,7 +22,6 @@ export async function HandleApiV1<NoLimit extends boolean = false>(
 
     const user = session.user;
   if (!user) throw new Error("Token Invalid");
-  if (user.frozen) throw new Error("Account Frozen");
 
   await (options.customLimiter || limiter).check(user.id);
 

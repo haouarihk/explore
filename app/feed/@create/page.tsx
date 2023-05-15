@@ -1,20 +1,20 @@
-'use client';
-
-import { User } from "next-auth";
-import Avatar from "../../avatar";
-import { className } from "../body";
-import { Send, TruckLoading } from "tabler-icons-react";
-import { useAuth } from "../../auth/client";
-import { useState } from "react";
-import clsx from "clsx";
+"use client";
 import { StorageItem as ST } from "@prisma/client";
-import { Dropper, StorageViewer } from "../storage";
-
-
+import clsx from "clsx";
+import { useState } from "react";
+import { TruckLoading, Send } from "tabler-icons-react";
+import { useAuth } from "../../components/auth/client";
+import Avatar from "../../components/avatar";
+import { className } from "../../components/tweet/body";
+import { Dropper, StorageViewer } from "../../components/tweet/storage";
+import { useSearchParams } from "next/navigation";
 
 type StorageItem = Partial<Omit<ST, "data"> & { data: string; id: string }>;
 
-export default function CreateTweet(props: { user: User }) {
+
+export default function CreateTweet(props: {
+    searchParams?: { [key: string]: string | string[] | undefined };
+}) {
     const s = useAuth();
     const [files, setFiles] = useState<StorageItem[]>([]);
     const [content, setContent] = useState("");
@@ -66,4 +66,7 @@ export default function CreateTweet(props: { user: User }) {
                 })} onClick={theresContent ? submit : undefined}><Send className="stroke-white/40 hover:stroke-white" /></button>}
         </div>
     </Dropper>
+
+
+
 }
