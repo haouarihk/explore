@@ -76,14 +76,14 @@ export default function SignIn() {
                         </div>
 
                         {/* When an error occurs */}
-                        {error &&
+                        {error ? (
                             error === "CredentialsSignin" ? (
-                            <div>
-                                Invalid credentials
-                            </div>
-                        ) : <div>
-                            Error Code: {error}
-                        </div>}
+                                <div>
+                                    Invalid credentials
+                                </div>
+                            ) : <div>
+                                Error Code: {error}
+                            </div>) : <></>}
                     </div>
                     <button onClick={onSubmit} className="btn">
                         Sign in

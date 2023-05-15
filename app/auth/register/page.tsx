@@ -24,7 +24,7 @@ export default function Register() {
 
     const query = useSearchParams();
     const callbackUrl = query.get("callbackUrl") || "/"
-    const error = query.get("error")
+    const error = query.get("error");
 
     async function onSubmit() {
         toast.promise(signUp({
@@ -32,7 +32,9 @@ export default function Register() {
             email,
             password,
         }), {
-            error: (error: any) => <>{error.message || error}</>,
+            error: (error: any) => {
+                return <>{error.message || error}</>
+            },
             loading: "loading",
             success: "Submitted"
         })
@@ -83,14 +85,14 @@ export default function Register() {
                         </div>
 
                         {/* When an error occurs */}
-                        {error &&
+                        {error ? (
                             error === "CredentialsSignin" ? (
-                            <div>
-                                Invalid credentials
-                            </div>
-                        ) : <div>
-                            Error Code: {error}
-                        </div>}
+                                <div>
+                                    Invalid credentials
+                                </div>
+                            ) : <div>
+                                Error Code: {error}
+                            </div>) : <></>}
                     </div>
                     <button onClick={onSubmit} className="btn">
                         Register
