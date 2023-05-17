@@ -16,7 +16,7 @@ export default async function RootLayout(props: any) {
   const s = await getServerAuth();
   return (
     <>
-      {s.user && props.create}
+      {s?.user && props.create}
 
       <PagerNav />
 

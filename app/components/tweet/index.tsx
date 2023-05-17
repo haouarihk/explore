@@ -58,7 +58,7 @@ export default async function Tweet(props: Tweet & {
     }
 
     return <div className={className}>
-        {props.userId == s.user?.id && <form action={submitDelete} className="absolute top-2 right-2">
+        {props.userId == s?.user?.id && <form action={submitDelete} className="absolute top-2 right-2">
             <button>
                 <X />
             </button>

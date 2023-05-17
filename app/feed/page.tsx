@@ -10,11 +10,11 @@ export default async function Home(props: {
   const search: string = decodeURIComponent((props.searchParams?.search as string) || "");
   const s = await getServerAuth();
 
-  const tweets = await getTweets(search, s.user?.email);
+  const tweets = await getTweets(search, s?.user?.email);
 
   if (tweets.length)
     // add view to viewed tweets
-    await addViewToTweets(tweets, s.user?.id);
+    await addViewToTweets(tweets, s?.user?.id);
 
 
   return <div className='flex flex-col max-w-4xl'>
