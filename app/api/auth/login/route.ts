@@ -22,7 +22,6 @@ export async function POST(req: NextRequest) {
                 email
             }
         })
-        console.log(user)
         // Validate input
         if (!user) throw new Error("Couldn't find the user");
 
@@ -31,12 +30,10 @@ export async function POST(req: NextRequest) {
         // verify password
         if (!await verifyHashedPassword(password, user.hashedPassword)) throw new Error("Wrong password");
 
-        console.log(user, password, email)
-
         // make jwt
         const token = await jwt.sign(UserData, getJwtPrivateKey(), {
             algorithm: "RS256",
-            expiresIn: "24h"
+            expiresIn: "7d"
         })
 
         const response = NextResponse.json(

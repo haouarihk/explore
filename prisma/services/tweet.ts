@@ -4,7 +4,7 @@ import prisma from "..";
 export async function getTweets(search: string, viewerEmail?: string | null, trending?: boolean) {
     const tweets = await prisma.tweet.findMany({
       // if trending
-      orderBy: trending?[
+      orderBy: trending ? [
         // order by likes first
         {
           Likes:{
@@ -17,14 +17,14 @@ export async function getTweets(search: string, viewerEmail?: string | null, tre
         }
       ]:[
 
-         // order second by users who are most active first
-         {
-          User:{
-            tweets:{
-              _count:"desc"
-            }
-          }
-        },
+        //  // order second by users who are most active first
+        //  {
+        //   User:{
+        //     tweets:{
+        //       _count:"desc"
+        //     }
+        //   }
+        // },
         
         {
           // order by last tweet first

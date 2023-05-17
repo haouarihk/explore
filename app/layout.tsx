@@ -4,6 +4,8 @@ import './globals.css'
 // import { Inter } from 'next/font/google'
 import NavControls from './components/nav/controls'
 import { getServerAuth } from './components/auth'
+import { redirect } from 'next/navigation'
+import { RedirectType } from 'next/dist/client/components/redirect'
 
 // const inter = Inter({ subsets: ['latin'] })
 
@@ -18,6 +20,9 @@ export default async function RootLayout(props: any) {
   const s = await getServerAuth();
   return (
     <html lang="en">
+      <header>
+        <script defer src="https://cdn.jsdelivr.net/npm/@finsweet/attributes-autovideo@1/autovideo.js"></script>
+      </header>
       <body className={clsx("flex items-center h-full")}>
         <Context {...props}>
           <main className="h-full flex flex-col items-center justify-between md:px-24 pt-32 w-full">
@@ -33,7 +38,7 @@ export default async function RootLayout(props: any) {
           </main>
         </Context>
       </body>
-    </html >
+    </html>
   )
 }
 

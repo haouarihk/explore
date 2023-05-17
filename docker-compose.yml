@@ -1,0 +1,17 @@
+services:
+  front:
+    build: .
+    ports:
+      - 1002:1002
+    volumes:
+      - .:/frontend
+    restart: unless-stopped
+
+    env_file:
+      - .env
+    networks:
+      - mynetwork
+
+networks:
+  mynetwork:
+    driver: bridge

@@ -6,6 +6,7 @@ import clsx from "clsx";
 import { signIn, signOut } from "../../auth/client";
 import { User } from "@prisma/client";
 import { useSearchParams } from "next/navigation";
+import Link from "next/link";
 
 export default function NavControls(props: { user?: User }) {
     const searchParams = useSearchParams();
@@ -39,9 +40,9 @@ export default function NavControls(props: { user?: User }) {
                 </button>
             </div>}
         </div> :
-            <button className="btn hover:btn-primary text-left" onClick={() => signIn()}>
+            <Link href="/auth/login" passHref onClick={() => signIn()} className="btn hover:btn-primary text-left">
                 Sign In
-            </button>
+            </Link>
         }
     </div>
 }

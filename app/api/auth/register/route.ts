@@ -40,7 +40,7 @@ export async function POST(req: NextRequest) {
         // make jwt
         const token = await jwt.sign(UserData, getJwtPrivateKey(), {
             algorithm: "RS256",
-            expiresIn: "24h"
+            expiresIn: "7d"
         })
 
         const response = NextResponse.json(

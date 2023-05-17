@@ -85,9 +85,9 @@ export function StorageItemViewer(props: { file: StorageItem, onDelete?: any, ed
 
     if (props.file.type?.includes("image")) {
         // show image
-        return <div className="relative aspect-square w-full">
+        return <div className="relative max-h-full w-full">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img className="h-full w-full" alt={`file-${props.file.name}`} loading="lazy"
+            <img className="max-h-full w-full" alt={`file-${props.file.name}`} loading="lazy"
                 /* @ts-ignore */
                 src={b64 ? media : `/api/v1/storage/${props.file.id}`}
             />

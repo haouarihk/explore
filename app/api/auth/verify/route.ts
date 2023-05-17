@@ -8,6 +8,7 @@ export async function POST(req: NextRequest) {
         return NextResponse.json({ user: await verifyJwtToken(body.token) })
     } catch (err: any) {
         console.log(err)
+        req.cookies.clear();
         return NextResponse.json({ detail: err.message || err });
     }
 }
