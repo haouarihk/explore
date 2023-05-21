@@ -40,15 +40,15 @@ export function StorageViewer({ id, files: _files, setFiles, editting }: Props) 
     const others = files.filter(f => f.type != "image" && f.type != "video")
 
     return <>
-        {!!videos.length && <div className="flex flex-wrap w-full gap-3">
+        {!!videos.length && <div className="flex w-full flex-wrap gap-3">
             {videos}
         </div>}
-        {!!images?.length && <div className="flex flex-wrap w-full gap-3">
+        {!!images?.length && <div className="flex w-full flex-wrap gap-3">
             {
                 images.map(file => <StorageItemViewer key={file.id} file={file} onDelete={deleteFile} editting={editting} />)
             }
         </div>}
-        {!!others?.length && <div className="flex flex-col w-full gap-3">
+        {!!others?.length && <div className="flex w-full flex-col gap-3">
             {
                 others.map(file => <StorageItemViewer
                     key={file.id}
@@ -91,7 +91,7 @@ export function StorageItemViewer(props: { file: StorageItem, onDelete?: any, ed
                 /* @ts-ignore */
                 src={b64 ? media : `/api/v1/storage/${props.file.id}`}
             />
-            {props.editting && <button onClick={() => props.onDelete(props.file.id)} className="absolute top-2 right-2 fill-white p-2 bg-white/40">
+            {props.editting && <button onClick={() => props.onDelete(props.file.id)} className="absolute right-2 top-2 bg-white/40 fill-white p-2">
                 <X />
             </button >}
         </div>
@@ -101,14 +101,14 @@ export function StorageItemViewer(props: { file: StorageItem, onDelete?: any, ed
         return <div className="relative aspect-video w-full">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <video className="h-full w-full" src={b64 ? media : `/api/v1/storage/${props.file.id}`} controls />
-            {props.editting && <button onClick={props.onDelete} className="absolute top-2 right-2 fill-white p-2 bg-white/40">
+            {props.editting && <button onClick={props.onDelete} className="absolute right-2 top-2 bg-white/40 fill-white p-2">
                 <X />
             </button >}
         </div>
     } else {
         // show generic file
-        return <Link href={`/api/v1/storage/${props.file.id}`} className="p-3 flex gap-3 flex-shrink-0 justify-between items-center hover:bg-gray-300/25" target="_blank">
-            <div className="flex gap-2 items-center">
+        return <Link href={`/api/v1/storage/${props.file.id}`} className="flex shrink-0 items-center justify-between gap-3 p-3 hover:bg-gray-300/25" target="_blank">
+            <div className="flex items-center gap-2">
                 <File />
                 {cutName + (extended ? "..." + extension : "")}
             </div>
@@ -163,20 +163,20 @@ export function Dropper(props: { children?: any; files: StorageItem[], setFiles:
     return (
         <div
             ref={drop}
-            className={clsx('FilesDragAndDrop relative', props.className)}
+            className={clsx('relative', props.className)}
             onDragEnter={() => setDropping(true)}
             onDrop={handleDrop}
         >
             {props.children}
 
-            {dropping && <div className="w-full h-full absolute top-0 left-0 bg-black/20 p-4 z-50"
+            {dropping && <div className="absolute left-0 top-0 z-50 h-full w-full bg-black/20 p-4"
                 onDragEnter={() => setDropping(true)}
                 onDragLeave={() => setDropping(false)}
                 onDragEnd={() => setDropping(false)}
                 onDragOver={handleDragOver}
                 onDrop={handleDrop}
             >
-                <div className="w-full h-full border-2 border-dashed border-white pointer-events-none" onDragEnter={() => setDropping(true)}></div>
+                <div className="pointer-events-none h-full w-full border-2 border-dashed border-white" onDragEnter={() => setDropping(true)}></div>
             </div>}
         </div>
     );

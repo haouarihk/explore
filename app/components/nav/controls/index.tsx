@@ -15,32 +15,32 @@ export default function NavControls(props: { user?: User }) {
 
     const [opened, setOpened] = useState(false);
 
-    return <div className="flex items-center gap-3 text-sm md:text-md">
-        <div className="flex items-center border-2 rounded-md border-white/20 pr-2 w-full max-w-sm gap-2">
-            <div className="flex items-center pl-3 pointer-events-none">
-                <svg aria-hidden="true" className="w-5 h-5 text-gray-500 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+    return <div className="flex items-center gap-3 text-sm md:text-base">
+        <div className="flex w-full max-w-sm items-center gap-2 rounded-md border-2 border-white/20 pr-2">
+            <div className="pointer-events-none flex items-center pl-3">
+                <svg aria-hidden="true" className="h-5 w-5 text-gray-500 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
             </div>
-            <input type="text" className="p-4 pl-0 pr-5 w-full h-full bg-transparent border-0 outline-0"
+            <input type="text" className="h-full w-full border-0 bg-transparent p-4 pl-0 pr-5 outline-0"
                 value={value}
                 placeholder="Search..."
                 onChange={(k) => setValue(k.target.value)} onKeyUp={(e) => e.key == "Enter" && (window.location.href = (`?search=${encodeURIComponent(value)}`))}
             />
-            {!!value.length && <X className="hover:fill-primary cursor-pointer" onClick={() => defaultValue?.length ? (window.location.href = (`?`)) : setValue("")} />}
+            {!!value.length && <X className="cursor-pointer hover:fill-primary" onClick={() => defaultValue?.length ? (window.location.href = (`?`)) : setValue("")} />}
         </div>
 
         {props.user ? <div className="relative">
             <button onClick={() => setOpened((e) => !e)} >
 
-                <Avatar user={props.user} className="rounded-full h-[50px] w-[50px] overflow-hidden cursor-pointer" />
+                <Avatar user={props.user} className="h-[50px] w-[50px] cursor-pointer overflow-hidden rounded-full" />
             </button>
-            {opened && <div className="flex flex-col absolute top-full right-0 w-44 bg-black/20 rounded-md overflow-hidden border-white/60 shadow-md border-2">
+            {opened && <div className="absolute right-0 top-full flex w-44 flex-col overflow-hidden rounded-md border-2 border-white/60 bg-black/20 shadow-md">
                 <Item className="hover:bg-inherit">Signed In As <span className="font-bold">{props.user?.name}</span></Item>
                 <button className="text-left" onClick={() => signOut()}>
                     <Item>Sign Out</Item>
                 </button>
             </div>}
         </div> :
-            <Link href="/auth/login" passHref onClick={() => signIn()} className="btn hover:btn-primary text-left">
+            <Link href="/auth/login" passHref onClick={() => signIn()} className="btn text-left hover:btn-primary">
                 Sign In
             </Link>
         }
@@ -48,5 +48,5 @@ export default function NavControls(props: { user?: User }) {
 }
 
 function Item(props: { children?: any, className?: any }) {
-    return <div className={clsx("text-sm w-full p-3 hover:bg-primary", props.className)}>{props.children}</div>
+    return <div className={clsx("w-full p-3 text-sm hover:bg-primary", props.className)}>{props.children}</div>
 }

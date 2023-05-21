@@ -23,12 +23,12 @@ export default async function RootLayout(props: any) {
       <header>
         <script defer src="https://cdn.jsdelivr.net/npm/@finsweet/attributes-autovideo@1/autovideo.js"></script>
       </header>
-      <body className={clsx("flex items-center h-full")}>
+      <body className={clsx("flex h-full items-center")}>
         <Context {...props}>
-          <main className="h-full flex flex-col items-center justify-between md:px-24 pt-32 w-full">
-            <div className='max-w-5xl w-full h-full'>
-              <div className='flex justify-between items-center p-4 fixed px-8 left-0 gap-3 top-0 w-full backdrop-blur-md border-b-2 border-white/10 z-50'>
-                <h1 className='font-bold text-md md:text-3xl select-none'>Explore</h1>
+          <main className="flex h-full w-full flex-col items-center justify-between pt-32 md:px-24">
+            <div className='h-full w-full max-w-5xl'>
+              <div className='fixed left-0 top-0 z-50 flex w-full items-center justify-between gap-3 border-b-2 border-white/10 p-4 px-8 backdrop-blur-md'>
+                <h1 className='select-none text-base font-bold md:text-3xl'>Explore</h1>
                 <NavControls user={s?.user as any} />
               </div>
             </div >

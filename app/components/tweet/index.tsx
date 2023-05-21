@@ -58,23 +58,23 @@ export default async function Tweet(props: Tweet & {
     }
 
     return <div className={className}>
-        {props.userId == s?.user?.id && <form action={submitDelete} className="absolute top-2 right-2">
+        {props.userId == s?.user?.id && <form action={submitDelete} className="absolute right-2 top-2">
             <button>
                 <X />
             </button>
         </form>}
         {/* tweet */}
-        <div className="flex flex-grow min-w-max gap-4 w-full">
+        <div className="flex w-full min-w-max grow gap-4">
 
             {/* tweet content */}
-            <div className="flex flex-col w-full gap-2">
+            <div className="flex w-full flex-col gap-2">
                 {/* username */}
                 <div className="flex gap-3">
                     <Avatar user={props.User as any} />
                     {/* username */}
                     <div>
                         <div className="font-bold tracking-wide">{props?.User?.name || "Guest"}</div>
-                        <div className="font-thin text-sm">{moment(props.createdAt).fromNow()}</div>
+                        <div className="text-sm font-thin">{moment(props.createdAt).fromNow()}</div>
                     </div>
                 </div>
 
@@ -91,14 +91,14 @@ export default async function Tweet(props: Tweet & {
         <StorageViewer id={props.id} files={props.storage} />
 
         {/* controls */}
-        <div className="flex gap-3 px-3 items-center justify-evenly select-none">
-            <div className="flex gap-2 items-center">
+        <div className="flex select-none items-center justify-evenly gap-3 px-3">
+            <div className="flex items-center gap-2">
                 <HeartButton likes={props._count.Likes} likedIt={likedIt} tweetId={props.id} />
             </div>
 
-            <form className="flex gap-2 items-center">
+            <form className="flex items-center gap-2">
                 {nFormatter(+(props.Views.toString()) || 0)}
-                <button className="hover:fill-pink-500 hover:stroke-red-500 cursor-pointer">
+                <button className="cursor-pointer hover:fill-pink-500 hover:stroke-red-500">
                     <Eye width={20} />
                 </button>
             </form>

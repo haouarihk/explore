@@ -44,11 +44,11 @@ export default function CreateTweet(props: {
 
     return <Dropper className={className} files={files} setFiles={setFiles}>
         {/* @ts-ignore */}
-        <div className="flex relative">
+        <div className="relative flex">
             <div className="pt-2">
                 <Avatar user={s?.user as any} />
             </div>
-            <textarea disabled={loading} value={content} onChange={(e) => setContent(e.target.value)} name="content" id="content" className='p-4 outline-none w-full bg-transparent text-white resize-none' cols={10} rows={1} placeholder="What are you thinking about..." />
+            <textarea disabled={loading} value={content} onChange={(e) => setContent(e.target.value)} name="content" id="content" className='w-full resize-none bg-transparent p-4 text-white outline-none' cols={10} rows={1} placeholder="What are you thinking about..." />
         </div>
 
         <StorageViewer id={"new"} files={files} setFiles={setFiles} editting />

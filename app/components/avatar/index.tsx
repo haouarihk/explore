@@ -2,7 +2,7 @@ import clsx from "clsx";
 import Image from "next/image";
 
 export default function Avatar(props: { user?: { name?: string | null; image?: string | null }, className?: any, skeleton?: boolean }) {
-    return <div className={clsx("flex items-center justify-center rounded-full avatar bg-black w-[42px] h-[42px]", props.className, {
+    return <div className={clsx("avatar flex h-[42px] w-[42px] items-center justify-center rounded-full bg-black", props.className, {
         "animation-pulse": props.skeleton
     })}>
         {!props.skeleton && <>

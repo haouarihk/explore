@@ -21,12 +21,12 @@ export default function HeartButton(props: { likes?: number, tweetId: string, li
 
     return <>
         {props.skeleton ?
-            <div className="max-w-sm h-full">
-                <div className="h-4 bg-gray-200 rounded-full dark:bg-gray-700 w-3"></div>
+            <div className="h-full max-w-sm">
+                <div className="h-4 w-3 rounded-full bg-gray-200 dark:bg-gray-700"></div>
             </div> :
             ((nFormatter(+((!props.likedIt && liked ? (props.likes || 0) + 1 : props.likes) || 0))) || 0)}
         <button onClick={submit}>
-            <Heart width={20} className={clsx("hover:fill-pink-500 hover:stroke-red-500 cursor-pointer", {
+            <Heart width={20} className={clsx("cursor-pointer hover:fill-pink-500 hover:stroke-red-500", {
                 "text-pink-500 fill-pink-500 stroke-red-500": liked
             })} />
         </button>

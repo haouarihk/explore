@@ -1,4 +1,4 @@
-import Tweet from '../components/tweet'
+import Tweet from '../components/tweet/skeleton'
 import { getServerAuth } from '../components/auth';
 import { addViewToTweets, getTweets } from '@/prisma/services/tweet';
 
@@ -17,18 +17,18 @@ export default async function Home(props: {
     await addViewToTweets(tweets, s?.user?.id);
 
 
-  return <div className='flex flex-col max-w-4xl'>
+  return <div className='flex w-full max-w-4xl flex-col'>
 
-    {!!search.length && <div className='p-4 text-2xl text-white/40 select-none'>
-      Searching for <span className='font-bold select-text text-white'>{search}</span>
+    {!!search.length && <div className='select-none p-4 text-2xl text-white/40'>
+      Searching for <span className='select-text font-bold text-white'>{search}</span>
     </div>}
 
     {
-      !!search.length && (!tweets.length ? <div className='p-8 text-center w-full text-2xl text-white/20 select-none'>
+      !!search.length && (!tweets.length ? <div className='w-full select-none p-8 text-center text-2xl text-white/20'>
         Couldn{"'"}t find Any Tweets
       </div>
         :
-        <div className='p-4 text-sm text-white/40 select-none'>
+        <div className='select-none p-4 text-sm text-white/40'>
           Found {tweets.length} Result{tweets.length == 1 ? "" : "s"}
         </div>
       )}
