@@ -2,6 +2,11 @@
   "name": "twitter",
   "version": "0.1.0",
   "private": true,
+  "author": {
+    "name": "haitam, abdelkader",
+    "email": "haitam2001@gmail.com",
+    "url": "https://haouarihk.com"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -23,12 +28,12 @@
     "eslint-config-next": "13.4.1",
     "jsonwebtoken": "^9.0.0",
     "moment": "^2.29.4",
-    "next": "13.4.1",
+    "next": "^13.4.3",
     "next-auth": "^4.22.1",
     "postcss": "8.4.23",
     "prisma": "^4.14.0",
-    "react": "18.2.0",
-    "react-dom": "18.2.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
     "react-dropzone": "^14.2.3",
     "react-hot-toast": "^2.4.1",
     "tabler-icons-react": "^1.56.0",

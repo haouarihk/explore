@@ -36,7 +36,7 @@ export default async function Home(props: {
 
     {
       // @ts-ignore
-      tweets.map(t => <Tweet key={t.id} {...t} />)
+      tweets.map(t => <Tweet key={t.id} {...t}  user={s?.user} />)
     }
   </div>
 }

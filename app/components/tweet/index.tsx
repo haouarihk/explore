@@ -1,19 +1,18 @@
-import prisma from "@/prisma";
-import { Tweet } from "@prisma/client";
-import clsx from "clsx";
+"use client";
+
+import { Tweet, User } from "@prisma/client";
 import moment from "moment";
-import { revalidatePath } from "next/cache";
-import { Eye, Heart, Message, X } from "tabler-icons-react";
-import { getServerAuth } from "../auth";
+import { Eye, X } from "tabler-icons-react";
 import Avatar from "../avatar";
 import { StorageViewer } from "./storage";
 import { className } from "./body";
 import HeartButton from "./button/heart";
 import { nFormatter } from "@/utils";
+import { useAuth } from "../auth/client";
 
 
 
-export default async function Tweet(props: Tweet & {
+export default function Tweet(props: Tweet & {
     Likes: {
         email: string | null;
     }[];
@@ -33,36 +32,26 @@ export default async function Tweet(props: Tweet & {
         Likes: number;
         storage: number;
     };
+
+    user: User;
 }) {
-    const s = await getServerAuth();
-    const authenticated = !!s?.user;
+    const authenticated = !!props?.user;
 
-    const likedIt = !!props.Likes.find(e => e.email == s?.user?.email)
 
-    const submitDelete = async (formData: FormData) => {
-        "use server";
-        if (!s?.user?.email) throw new Error("Not Authenticated");
-        if (s?.user?.id !== props.userId) throw new Error("Not Authorized");
-        await prisma.storageItem.deleteMany({
-            where: {
-                tweetId: props.id,
-            },
+    const onDelete = async () => {
+        await fetch(`/api/v1/tweets/${props.id}`, {
+            method: "DELETE",
         })
-        await prisma.tweet.delete({
-            where: {
-                id: props.id,
-            },
-        })
-
-        await revalidatePath("/")
     }
 
+    const likedIt = !!props.Likes.find(e => e.email == props?.user?.email)
+
     return <div className={className}>
-        {props.userId == s?.user?.id && <form action={submitDelete} className="absolute right-2 top-2">
-            <button>
+        {props.userId == props?.user?.id && <div className="absolute right-2 top-2">
+            <button onClick={onDelete}>
                 <X />
             </button>
-        </form>}
+        </div>}
         {/* tweet */}
         <div className="flex w-full min-w-max grow gap-4">
 

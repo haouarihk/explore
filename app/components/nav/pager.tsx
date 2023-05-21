@@ -8,7 +8,7 @@ export default function PagerNav() {
 
     const pathname = usePathname();
 
-    return <div>
+    return <div className="w-full">
         <div className="inline-flex w-full rounded-md text-center shadow-sm">
             <NavItem pathname={pathname} path="/feed" >Explore</NavItem>
             <NavItem pathname={pathname} path="/trending" >Trending</NavItem>

@@ -1,4 +1,4 @@
-import Tweet from '../components/tweet/skeleton'
+import Tweet from '../components/tweet'
 import { getServerAuth } from '../components/auth';
 import { addViewToTweets, getTweets } from '@/prisma/services/tweet';
 
@@ -17,7 +17,7 @@ export default async function Home(props: {
     await addViewToTweets(tweets, s?.user?.id);
 
 
-  return <div className='flex w-full max-w-4xl flex-col'>
+  return <div className='flex w-full items-center max-w-4xl flex-col'>
 
     {!!search.length && <div className='select-none p-4 text-2xl text-white/40'>
       Searching for <span className='select-text font-bold text-white'>{search}</span>
@@ -34,10 +34,12 @@ export default async function Home(props: {
       )}
 
 
+      <div className="flex flex-col gap-3">
     {
       // @ts-ignore
-      tweets.map(t => <Tweet key={t.id} {...t} />)
+      tweets.map(t => <Tweet key={t.id} {...t}  user={s?.user} />)
     }
+    </div>
   </div>
 }
 

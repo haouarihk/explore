@@ -2,9 +2,10 @@ import { Eye } from "tabler-icons-react";
 import { className } from "./body";
 import Avatar from "../avatar";
 import HeartButton from "./button/heart";
+import clsx from "clsx";
 
 export default function Tweet() {
-    return <div className={className}>
+    return <div className={clsx(className, "min-w-max")}>
 
         {/* tweet */}
         <div className="flex w-full min-w-max grow gap-4">

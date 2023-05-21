@@ -17,7 +17,7 @@ export const metadata = {
 
 
 export default async function RootLayout(props: any) {
-  const s = await getServerAuth();
+  const s = undefined||await getServerAuth();
   return (
     <html lang="en">
       <header>
@@ -32,7 +32,7 @@ export default async function RootLayout(props: any) {
                 <NavControls user={s?.user as any} />
               </div>
             </div >
-            <div className="w-fit">
+            <div className="w-full flex flex-col items-center">
               {props.children}
             </div>
           </main>
