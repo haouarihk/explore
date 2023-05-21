@@ -17,7 +17,7 @@ export default async function Home(props: {
     await addViewToTweets(tweets, s?.user?.id);
 
 
-  return <div className='flex w-full items-center max-w-4xl flex-col'>
+  return <div className='flex w-full max-w-4xl flex-col items-center'>
 
     {!!search.length && <div className='select-none p-4 text-2xl text-white/40'>
       Searching for <span className='select-text font-bold text-white'>{search}</span>

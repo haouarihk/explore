@@ -32,7 +32,7 @@ export default async function RootLayout(props: any) {
                 <NavControls user={s?.user as any} />
               </div>
             </div >
-            <div className="w-full flex flex-col items-center">
+            <div className="flex w-full flex-col items-center">
               {props.children}
             </div>
           </main>
