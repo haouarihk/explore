@@ -15,7 +15,7 @@ datasource db {
 model StorageItem {
   id       String @id @default(cuid())
   tweetId  String
-  Tweet    Tweet  @relation(fields: [tweetId], references: [id])
+  Tweet    Tweet  @relation(fields: [tweetId], references: [id], onDelete: Cascade)
   name     String
   type     String
   mimeType String

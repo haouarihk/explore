@@ -6,7 +6,6 @@ import clsx from "clsx";
 
 export default function Tweet() {
     return <div className={clsx(className, "min-w-max")}>
-
         {/* tweet */}
         <div className="flex w-full min-w-max grow gap-4">
 

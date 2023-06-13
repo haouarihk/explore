@@ -5,7 +5,7 @@ export default async function Home(props: any) {
     return (<>
         {/* @ts-ignore */}
         <CreateTweet {...props} />
-        <div className='flex flex-col'>
+        <div className='flex flex-col w-full'>
             <Tweet />
             <Tweet />
             <Tweet />
